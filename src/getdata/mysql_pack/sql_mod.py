@@ -9,7 +9,8 @@ def addsql_batter(a_batterDataList):
         user='root',
         passwd='to106kita9ma',
         # db='python_db',
-        db='python_test',
+        # db='python_test',
+        db='a',
         # テーブル内部で日本語を扱うために追加
         charset='utf8'
     )
@@ -125,7 +126,8 @@ def addsql_picher(a_picherDataList):
         user='root',
         passwd='to106kita9ma',
         # db='python_db',
-        db='python_test',
+        # db='python_test',
+        db='a',
         # テーブル内部で日本語を扱うために追加
         charset='utf8'
     )

@@ -133,44 +133,56 @@ def getpitchedpiches(a_selectionEye_url):
     return t_selectionEye_list
 
 def getbasebatterdata(a_base_url):
-    # 初期化
+    # デバッグ用に追加
     t_basedata_list = []
+    try:
+        # 初期化
+        t_basedata_list = []
+        t_exception_flag = False    # 例外フラグ
 
-    # Beautifulsoupでデータを取得
-    # requests1回につき1s待つ
-    time.sleep(1)
-    r = requests.get(a_base_url)
-    soup = BeautifulSoup(r.content, 'html.parser')
+        # Beautifulsoupでデータを取得
+        # requests1回につき1s待つ
+        time.sleep(1)
+        r = requests.get(a_base_url)
+        soup = BeautifulSoup(r.content, 'html.parser')
 
-    # 通算成績行を取得(文字列)
-    t_total_str = soup.select('body > div > div.main > div.table-responsive > table > tbody > tr:nth-child(1)')[0].text
-    # 改行文字列系を削除し、空白行でリスト分割
-    t_total_list = t_total_str.replace("\n","").replace("\r","").split() # 引数なしのsplitは空白文字列による分割
-    t_basedata_list = t_basedata_list + [t_total_list[20]] # 打席数(plateappearance)
-    t_basedata_list = t_basedata_list + [t_total_list[5]]  # 安打数(hit)
-    t_basedata_list = t_basedata_list + [t_total_list[6]]  # 単打数(single)
-    t_basedata_list = t_basedata_list + [t_total_list[7]]  # 二塁打数(twobase)
-    t_basedata_list = t_basedata_list + [t_total_list[8]]  # 三塁打数(threebase)
-    t_basedata_list = t_basedata_list + [t_total_list[4]]  # 本塁打数(homerun)
-    t_basedata_list = t_basedata_list + [t_total_list[23]] # 四球数(walk)
-    t_basedata_list = t_basedata_list + [t_total_list[24]] # 死球数(hit-by-pitch)
-    t_basedata_list = t_basedata_list + [t_total_list[37]] # 三振数(strikeout)
-    t_basedata_list = t_basedata_list + [t_total_list[35]] # 併殺数(doubleplay)
-    # 追加221118
-    t_basedata_list = t_basedata_list + [t_total_list[21]] # 打数(atbats)
-    t_basedata_list = t_basedata_list + [t_total_list[31]] # 犠飛(sacrificeflight)
-    t_basedata_list = t_basedata_list + [t_total_list[28]] # 企犠打(allbunt)
-    t_basedata_list = t_basedata_list + [t_total_list[29]] # 犠打(okbunt)
-    t_basedata_list = t_basedata_list + [t_total_list[25]] # 企盗塁(allstolenbase)
-    t_basedata_list = t_basedata_list + [t_total_list[26]] # 盗塁(stolenbase)
-    print("unko")
+        # 通算成績行を取得(文字列)
+        t_total_str = soup.select('body > div > div.main > div.table-responsive > table > tbody > tr:nth-child(1)')[0].text
+        # 改行文字列系を削除し、空白行でリスト分割
+        t_total_list = t_total_str.replace("\n","").replace("\r","").split() # 引数なしのsplitは空白文字列による分割
+        t_basedata_list = t_basedata_list + [t_total_list[20]] # 打席数(plateappearance)
+        t_basedata_list = t_basedata_list + [t_total_list[5]]  # 安打数(hit)
+        t_basedata_list = t_basedata_list + [t_total_list[6]]  # 単打数(single)
+        t_basedata_list = t_basedata_list + [t_total_list[7]]  # 二塁打数(twobase)
+        t_basedata_list = t_basedata_list + [t_total_list[8]]  # 三塁打数(threebase)
+        t_basedata_list = t_basedata_list + [t_total_list[4]]  # 本塁打数(homerun)
+        t_basedata_list = t_basedata_list + [t_total_list[23]] # 四球数(walk)
+        t_basedata_list = t_basedata_list + [t_total_list[24]] # 死球数(hit-by-pitch)
+        t_basedata_list = t_basedata_list + [t_total_list[37]] # 三振数(strikeout)
+        t_basedata_list = t_basedata_list + [t_total_list[35]] # 併殺数(doubleplay)
+        # 追加221118
+        t_basedata_list = t_basedata_list + [t_total_list[21]] # 打数(atbats)
+        t_basedata_list = t_basedata_list + [t_total_list[31]] # 犠飛(sacrificeflight)
+        t_basedata_list = t_basedata_list + [t_total_list[28]] # 企犠打(allbunt)
+        t_basedata_list = t_basedata_list + [t_total_list[29]] # 犠打(okbunt)
+        t_basedata_list = t_basedata_list + [t_total_list[25]] # 企盗塁(allstolenbase)
+        t_basedata_list = t_basedata_list + [t_total_list[26]] # 盗塁(stolenbase)
 
-    return t_basedata_list
+    except Exception as e:
+        # 基本設計書の例外定義を参照すること。
+        # 例外処理として、すべてノーデータとして埋め、SQLへ登録する。
+        t_basedata_list = ["---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---"]
+        t_exception_flag = True
+        print("例外args:", e.args)
+
+
+    return t_basedata_list, t_exception_flag
 if __name__ == "__main__":
     import sys
-    getaverage(sys.argv[1])
-    getpitchedpiches(sys.argv[1])
-    getbasebatterdata(sys.argv[1])
+    # getaverage(sys.argv[1])
+    # getpitchedpiches(sys.argv[1])
+    # getbasebatterdata(sys.argv[1])
+    getbasebatterdata("https://baseballdata.jp/playerB/700027.html")
     # getatbatsnum("https://baseballdata.jp/playerB/1600089.html")
     # getaverage("https://baseballdata.jp/2018/playerP/800022_course.html")
     # getaverage("https://baseballdata.jp/2012/playerB/1100061_course.html")

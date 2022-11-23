@@ -52,38 +52,47 @@ t_selectionEye_url = ""
 t_selectionEye_split = []
 t_base_url = ""
 t_base_split = []
+t_basedata_list = []
+t_exception_flag = False
 
 # データ取得対象球団のベースとなるページurlリスト
-t_url_list = [
-        # "https://baseballdata.jp/1/ctop.html",
-        # "https://baseballdata.jp/2/ctop.html",
+## 打者url
+t_url_batter_list = [
+        "https://baseballdata.jp/1/ctop.html",
+        "https://baseballdata.jp/2/ctop.html",
         "https://baseballdata.jp/3/ctop.html",
-        # "https://baseballdata.jp/4/ctop.html",
-        # "https://baseballdata.jp/5/ctop.html",
-        # "https://baseballdata.jp/6/ctop.html",
-        # "https://baseballdata.jp/7/ctop.html",
-        # "https://baseballdata.jp/8/ctop.html",
-        # "https://baseballdata.jp/9/ctop.html",
-        # "https://baseballdata.jp/11/ctop.html",
-        # "https://baseballdata.jp/12/ctop.html",
-        # "https://baseballdata.jp/376/ctop.html",
-        # "https://baseballdata.jp/1/cptop.html",
-        # "https://baseballdata.jp/2/cptop.html",
-        # "https://baseballdata.jp/3/cptop.html",
-        # "https://baseballdata.jp/4/cptop.html",
-        # "https://baseballdata.jp/5/cptop.html",
-        # "https://baseballdata.jp/6/cptop.html",
-        # "https://baseballdata.jp/7/cptop.html",
-        # "https://baseballdata.jp/8/cptop.html",
-        # "https://baseballdata.jp/9/cptop.html",
-        # "https://baseballdata.jp/11/cptop.html",
-        # "https://baseballdata.jp/12/cptop.html",
-        # "https://baseballdata.jp/376/cptop.html",
+        "https://baseballdata.jp/4/ctop.html",
+        "https://baseballdata.jp/5/ctop.html",
+        "https://baseballdata.jp/6/ctop.html",
+        "https://baseballdata.jp/7/ctop.html",
+        "https://baseballdata.jp/8/ctop.html",
+        "https://baseballdata.jp/9/ctop.html",
+        "https://baseballdata.jp/11/ctop.html",
+        "https://baseballdata.jp/12/ctop.html",
+        "https://baseballdata.jp/376/ctop.html",
     ]
 
+## 投手url
+t_url_pitcher_list = [
+        "https://baseballdata.jp/1/cptop.html",
+        "https://baseballdata.jp/2/cptop.html",
+        "https://baseballdata.jp/3/cptop.html",
+        "https://baseballdata.jp/4/cptop.html",
+        "https://baseballdata.jp/5/cptop.html",
+        "https://baseballdata.jp/6/cptop.html",
+        "https://baseballdata.jp/7/cptop.html",
+        "https://baseballdata.jp/8/cptop.html",
+        "https://baseballdata.jp/9/cptop.html",
+        "https://baseballdata.jp/11/cptop.html",
+        "https://baseballdata.jp/12/cptop.html",
+        "https://baseballdata.jp/376/cptop.html",
+    ]
 
 # 辞書を取得
-t_np_list = makedict_mod.makedict(t_url_list)
+t_np_batter_list = makedict_mod.makedict(t_url_batter_list)
+t_np_pitcher_list = makedict_mod.makedict(t_url_pitcher_list)
+
+t_np_list = np.concatenate([t_np_batter_list, t_np_pitcher_list])
 
 for t_ele in t_np_list:
     t_player_id = t_ele[0]
@@ -143,17 +152,18 @@ for t_ele in t_np_list:
                 try:
                     t_selectionEye_list  = getdata_mod.getpitchedpiches(t_selectionEye_archive_url)
                     t_getdatalist  = np.append(t_getdatalist, t_selectionEye_list)
-                    print("unko")
                 except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
                     print('Not found:', t_selectionEye_archive_url)
                     continue
 
                 # 打席数・安打数・単打数・二塁打数・三塁打数・本塁打数・四球数・死球数・三振数・併殺数(計10要素)を取得
                 try:
-                    t_basedata_list = getdata_mod.getbasebatterdata(t_base_archive_url)
+                    # t_basedata_list, t_exception_flag = getdata_mod.getbasebatterdata(t_base_archive_url)
+                    t_basedata_result_list = getdata_mod.getbasebatterdata(t_base_archive_url)
+                    t_basedata_list = t_basedata_result_list[0]
+                    t_exception_flag = t_basedata_result_list[1]
                     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
                     print("unko")
-
                 except Exception as e:
                     print("例外args:", e.args)
 
@@ -180,19 +190,30 @@ for t_ele in t_np_list:
 
                 # 打席数・安打数・単打数・二塁打数・三塁打数・本塁打数・四球数・死球数・三振数・併殺数(計10要素)を取得
                 try:
-                    t_basedata_list = getdata_mod.getbasebatterdata(t_base_url[0])
+                    t_basedata_result_list = getdata_mod.getbasebatterdata(t_base_url[0])
+                    t_basedata_list = t_basedata_result_list[0]
+                    t_exception_flag = t_basedata_result_list[1]
                     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
                     print("unko")
 
                 except Exception as e:
                     print("例外args:", e.args)
+                    t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
 
-        # 縦結合(年度毎の打率※投手の場合は被打率)
-        # player roleがバッターの場合
-        if t_player_role == g.t_batter_key_str:
-            t_batterDataList = np.row_stack((t_batterDataList, t_getdatalist))
-        elif t_player_role == g.t_picher_key_str:
-            t_picherDataList = np.row_stack((t_picherDataList, t_getdatalist))
+        if t_exception_flag == False:
+            # 縦結合(年度毎の打率※投手の場合は被打率)
+            # player roleがバッターの場合
+            if t_player_role == g.t_batter_key_str:
+                try:
+                    t_batterDataList = np.row_stack((t_batterDataList, t_getdatalist))
+                except Exception as e:
+                    print("例外args:", e.args)
+
+            elif t_player_role == g.t_picher_key_str:
+                t_picherDataList = np.row_stack((t_picherDataList, t_getdatalist))
+        elif t_exception_flag == True:
+            # 例外の場合、引退or出場していない年のデータのため追加しない。
+            pass
 
 # mysqlへ登録
 sql_mod.addsql_batter(t_batterDataList)
