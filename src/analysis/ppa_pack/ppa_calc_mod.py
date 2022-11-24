@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from globaldef_pack import globalvalue_mod as g
 
 def calc_fnc(a_team, a_year_idx, a_np_array):
     # 初期化
@@ -9,7 +10,7 @@ def calc_fnc(a_team, a_year_idx, a_np_array):
     t_ppa_list = np.empty((0,2), str)
     t_team = a_team
     t_year_idx = a_year_idx
-    t_result_base_path = "D:\\11_github\\python\\baseball\\result\\ppa"
+    t_result_base_path = g.g_ppa_result_base_path
 
     # 年度別の結果格納フォルダを作成
     t_result_path = os.path.join(t_result_base_path, str(t_year_idx))

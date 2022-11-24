@@ -2,13 +2,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from globaldef_pack import globalvalue_mod as g
 
 def obp_selectball_fnc(a_team, a_year_idx, a_np_array):
     # チーム
     t_team = a_team
     t_year_idx = a_year_idx
     t_del_idx_list = []
-    t_result_base_path = "D:\\11_github\\python\\baseball\\result\\obp_selectball"
+    t_result_base_path = g.g_obp_selectball_result_base_path
 
     # 年度別の結果格納フォルダを作成
     t_result_path = os.path.join(t_result_base_path, str(t_year_idx))
