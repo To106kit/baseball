@@ -6,17 +6,26 @@ from bs4 import BeautifulSoup
 import re
 import numpy as np
 
-def getaverage(a_dataUrlList):
+def getaverage(a_dataUrlList, a_year_idx):
     # 初期化
     t_courseList = []
     t_teamName = ""
     url = a_dataUrlList
+    t_year_idx = a_year_idx
+    t_invalid_flag = False
     
     # BeautifulSoupでデータを取得
     # requests1回につき1s待つ
     time.sleep(1)
     r = requests.get(url)
     soup = BeautifulSoup(r.content, 'html.parser')
+
+    # ガード処理(検索対象の年度のデータと不整合である場合)
+    t_h2_text = soup.find_all('h2')[0].text
+    # if ~t_h2_text.find(str(t_year_idx)):
+    if str(t_year_idx) not in t_h2_text:
+        t_invalid_flag = True
+
     # 選手名取得
     t_playerName = soup.find_all('h1')[0].text
     t_playerName = t_playerName.replace(" ","\u3000")
@@ -110,7 +119,7 @@ def getaverage(a_dataUrlList):
         t_teamName = "DeNA"
 
     print("########## getaverage end ################")
-    return t_courseList, t_teamName
+    return t_courseList, t_teamName, t_invalid_flag
 
 # 被投球数を取得
 def getpitchedpiches(a_selectionEye_url):

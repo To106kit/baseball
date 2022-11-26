@@ -18,7 +18,7 @@ def get_course_data(t_course_url, t_ele, t_year_idx):
     t_player_role = t_ele[2]
 
     # コース別打率を取得
-    t_getdatalist, t_teamName  = getdata_mod.getaverage(t_course_url)
+    t_getdatalist, t_teamName, t_invalid_flag  = getdata_mod.getaverage(t_course_url, t_year_idx)
     t_getdatalist = np.append(t_getdatalist, t_player_name)
     t_getdatalist = np.append(t_getdatalist, t_year_idx)
     t_getdatalist = np.append(t_getdatalist, t_teamName)
@@ -29,7 +29,7 @@ def get_course_data(t_course_url, t_ele, t_year_idx):
     # URLがピッチャーデータの場合
     elif g.t_picher_key_str in t_course_url:
         t_getdatalist = np.append(t_getdatalist, g.t_picher_key_str)
-    return t_getdatalist
+    return t_getdatalist, t_invalid_flag
 ############################## 関数定義 ####################################
 
 ############################## クラス定義 ##################################
@@ -54,6 +54,7 @@ t_base_url = ""
 t_base_split = []
 t_basedata_list = []
 t_exception_flag = False
+t_invalid_flag = False
 
 # データ取得対象球団のベースとなるページurlリスト
 ## 打者url
@@ -140,8 +141,14 @@ for t_ele in t_np_list:
 
             # コース別打率を取得
             try:
-                t_getdatalist = get_course_data(t_course_archive_url, t_ele, t_year_idx)
-                print("unko")
+                t_getdatalist, t_invalid_flag = get_course_data(t_course_archive_url, t_ele, t_year_idx)
+                # 引退した選手のデータが残っている場合の処理(mysqlへ追加しない様にするために、次のインデックスへ移る。)
+                if t_invalid_flag == True:
+                    #次のurlへ移る
+                    continue
+                elif t_invalid_flag == False:
+                    #何もしない
+                    pass
             except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
                 print('Not found:', t_course_archive_url)
                 continue
@@ -163,7 +170,6 @@ for t_ele in t_np_list:
                     t_basedata_list = t_basedata_result_list[0]
                     t_exception_flag = t_basedata_result_list[1]
                     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
-                    print("unko")
                 except Exception as e:
                     print("例外args:", e.args)
 
@@ -172,7 +178,14 @@ for t_ele in t_np_list:
         elif t_year_idx == 2022:
             # コース別打率を取得
             try:
-                t_getdatalist = get_course_data(t_course_url[0], t_ele, t_year_idx)
+                t_getdatalist, t_invalid_flag = get_course_data(t_course_url[0], t_ele, t_year_idx)
+                # 引退した選手のデータが残っている場合の処理(mysqlへ追加しない様にするために、次のインデックスへ移る。)
+                if t_invalid_flag == True:
+                    #次のurlへ移る
+                    continue
+                elif t_invalid_flag == False:
+                    #何もしない
+                    pass
             except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
                 print('Not found:', t_course_url[0])
                 continue
@@ -194,7 +207,6 @@ for t_ele in t_np_list:
                     t_basedata_list = t_basedata_result_list[0]
                     t_exception_flag = t_basedata_result_list[1]
                     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
-                    print("unko")
 
                 except Exception as e:
                     print("例外args:", e.args)
