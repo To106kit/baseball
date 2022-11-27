@@ -2,6 +2,8 @@
 from getdata_pack import getdata_mod
 from lib_pack import makedict_mod
 from mysql_pack import sql_mod
+import sendgmail_pack
+import time_pack
 import numpy as np
 import re
 import os
@@ -55,38 +57,39 @@ t_base_split = []
 t_basedata_list = []
 t_exception_flag = False
 t_invalid_flag = False
+t_unit_flag = "sec"
 
 # データ取得対象球団のベースとなるページurlリスト
 ## 打者url
 t_url_batter_list = [
         "https://baseballdata.jp/1/ctop.html",
-        "https://baseballdata.jp/2/ctop.html",
-        "https://baseballdata.jp/3/ctop.html",
-        "https://baseballdata.jp/4/ctop.html",
-        "https://baseballdata.jp/5/ctop.html",
-        "https://baseballdata.jp/6/ctop.html",
-        "https://baseballdata.jp/7/ctop.html",
-        "https://baseballdata.jp/8/ctop.html",
-        "https://baseballdata.jp/9/ctop.html",
-        "https://baseballdata.jp/11/ctop.html",
-        "https://baseballdata.jp/12/ctop.html",
-        "https://baseballdata.jp/376/ctop.html",
+        # "https://baseballdata.jp/2/ctop.html",
+        # "https://baseballdata.jp/3/ctop.html",
+        # "https://baseballdata.jp/4/ctop.html",
+        # "https://baseballdata.jp/5/ctop.html",
+        # "https://baseballdata.jp/6/ctop.html",
+        # "https://baseballdata.jp/7/ctop.html",
+        # "https://baseballdata.jp/8/ctop.html",
+        # "https://baseballdata.jp/9/ctop.html",
+        # "https://baseballdata.jp/11/ctop.html",
+        # "https://baseballdata.jp/12/ctop.html",
+        # "https://baseballdata.jp/376/ctop.html",
     ]
 
 ## 投手url
 t_url_pitcher_list = [
         "https://baseballdata.jp/1/cptop.html",
-        "https://baseballdata.jp/2/cptop.html",
-        "https://baseballdata.jp/3/cptop.html",
-        "https://baseballdata.jp/4/cptop.html",
-        "https://baseballdata.jp/5/cptop.html",
-        "https://baseballdata.jp/6/cptop.html",
-        "https://baseballdata.jp/7/cptop.html",
-        "https://baseballdata.jp/8/cptop.html",
-        "https://baseballdata.jp/9/cptop.html",
-        "https://baseballdata.jp/11/cptop.html",
-        "https://baseballdata.jp/12/cptop.html",
-        "https://baseballdata.jp/376/cptop.html",
+        # "https://baseballdata.jp/2/cptop.html",
+        # "https://baseballdata.jp/3/cptop.html",
+        # "https://baseballdata.jp/4/cptop.html",
+        # "https://baseballdata.jp/5/cptop.html",
+        # "https://baseballdata.jp/6/cptop.html",
+        # "https://baseballdata.jp/7/cptop.html",
+        # "https://baseballdata.jp/8/cptop.html",
+        # "https://baseballdata.jp/9/cptop.html",
+        # "https://baseballdata.jp/11/cptop.html",
+        # "https://baseballdata.jp/12/cptop.html",
+        # "https://baseballdata.jp/376/cptop.html",
     ]
 
 # 辞書を取得
@@ -234,9 +237,11 @@ sql_mod.addsql_picher(t_picherDataList)
 
 # 時間計測終了
 t_time_end = time.time()
-# 経過時間（秒）
-t_time = t_time_end - t_time_sta
-print(t_time)
+# 経過時間（min）
+t_time, t_unit_flag = time_pack.calc_exec_time_mod.calc_exec_time_fnc(t_time_sta, t_time_end)
+
+# gmailへ実行完了メールを送信
+sendgmail_pack.sendgmail_mod.sendgmail(t_time, t_unit_flag)
 
 print("########## all end ################")
 
