@@ -118,7 +118,6 @@ def getaverage(a_dataUrlList, a_year_idx):
     if t_teamName == "ＤｅＮＡ":
         t_teamName = "DeNA"
 
-    print("########## getaverage end ################")
     return t_courseList, t_teamName, t_invalid_flag
 
 # 被投球数を取得
@@ -138,7 +137,6 @@ def getpitchedpiches(a_selectionEye_url):
     t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(5)')[0].text] # ストライク見逃し数
     t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(6)')[0].text] # ストライク空振り数
 
-    print("end")
     return t_selectionEye_list
 
 def getbasebatterdata(a_base_url):

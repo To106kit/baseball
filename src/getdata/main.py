@@ -99,6 +99,7 @@ for t_ele in t_np_list:
     t_player_id = t_ele[0]
     t_player_name = t_ele[1]
     t_player_role = t_ele[2]
+    print(t_player_id, t_player_name, t_player_role)
 
     # player roleがバッターの場合
     if t_player_role == g.t_batter_key_str:
