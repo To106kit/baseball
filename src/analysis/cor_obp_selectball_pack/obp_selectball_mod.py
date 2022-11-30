@@ -3,41 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from globaldef_pack import globalvalue_mod as g
-
-# 出塁率計算
-def calc_obp_local_fnc(a_np_array):
-    # 初期化
-    t_np_array = a_np_array
-
-    ## 打数
-    t_atbats = t_np_array[:,46].astype(int)
-    ## 安打数
-    t_hit = t_np_array[:,37].astype(int)
-    ## 死球数
-    t_hitbypitch = t_np_array[:,43].astype(int)
-    ## 四球数
-    t_walk = t_np_array[:,42].astype(int)
-    ## 犠飛
-    t_sacrificeflight = t_np_array[:,47].astype(int)
-    # 計算（出塁率 ＝ （安打数＋死球+四球）÷（打数＋死球＋四球＋犠飛））
-    t_obp = np.round((t_hit + t_hitbypitch + t_walk) / (t_atbats + t_hitbypitch + t_walk + t_sacrificeflight) , 3)
-
-    return t_obp
-
-# 解析対象外を除外する
-def exclude_inappropriate_local_fnc(a_np_array_del):
-    # 初期化
-    t_np_array_del = a_np_array_del
-    t_del_idx_list = []
-
-    # t_atbat_define打席未満の選手は解析対象外とする。
-    t_atbat_define = 100 # この行を変更して解析対象を変更できる。
-    for t_idx in range(t_np_array_del.shape[0]):
-        if int(t_np_array_del[:,36][t_idx]) < t_atbat_define:
-            t_del_idx_list = t_del_idx_list + [t_idx]
-    # 削除
-    t_np_array = np.delete(t_np_array_del, t_del_idx_list, 0)
-    return t_np_array
+import common_fnc_pack
 
 def obp_selectball_fnc(a_team, a_year_idx, a_np_array):
     # チーム
@@ -49,21 +15,16 @@ def obp_selectball_fnc(a_team, a_year_idx, a_np_array):
     t_result_path = os.path.join(t_result_base_path, str(t_year_idx))
     os.makedirs(t_result_path, exist_ok=True)
 
-    # mysqlからデータ取得
-    t_np_array_del = a_np_array.copy()
-
-    # t_atbat_define打席未満の選手は解析対象外とする。
-    t_np_array = exclude_inappropriate_local_fnc(t_np_array_del)
+    # 解析対象外を除外する
+    t_np_array = common_fnc_pack.exclude_data_mod.exclude_data_fnc(a_np_array)
 
     # ボール球見極め率
-    t_ball_mikiwameritu = np.round(t_np_array[:,32].astype(int)/t_np_array[:,31].astype(int),2)
-    # ストライク見逃し率
-    t_strike_minogashiritu = np.round(t_np_array[:,34].astype(int)/t_np_array[:,33].astype(int),2)
+    t_ballnoswingrate = common_fnc_pack.calc_ballnoswingrate_mod.ballnoswingrate_fnc(t_np_array)
     # 選手名
     t_player_name = t_np_array[:,3]
 
     # 出塁率計算
-    t_obp = calc_obp_local_fnc(t_np_array)
+    t_obp = common_fnc_pack.calc_obp_mod.calc_obp_fnc(t_np_array)
 
     # 散布図を描画
     plt.rcParams["font.size"] = 8
@@ -75,10 +36,10 @@ def obp_selectball_fnc(a_team, a_year_idx, a_np_array):
 
     ax.set_xlim(0.4,0.9)
     ax.set_ylim(0.0,0.5)
-    ax.scatter(t_ball_mikiwameritu, t_obp, s=40)
+    ax.scatter(t_ballnoswingrate, t_obp, s=40)
 
     for i, label in enumerate(t_player_name):
-        plt.text(t_ball_mikiwameritu[i], t_obp[i], label)  # type: ignore
+        plt.text(t_ballnoswingrate[i], t_obp[i], label)  # type: ignore
 
     plt.savefig(os.path.join(t_result_path, t_team + "_obp_selectball.png"), format="png", dpi=300)
     plt.close()

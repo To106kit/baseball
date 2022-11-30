@@ -41,20 +41,20 @@ for t_team in t_team_list:
         t_np_array = np.array(t_rows)
 
         # 解析(プロット用データ整理)
-        # ## コース別打率
-        # course_pack.average_mod.plot_average_fnc(t_team, t_year_idx, t_np_array)
+        ## コース別打率
+        course_pack.average_mod.plot_average_fnc(t_team, t_year_idx, t_np_array)
 
-        # ## ppa計算
-        # ppa_pack.ppa_calc_mod.calc_fnc(t_team, t_year_idx, t_np_array)
+        ## ppa計算
+        ppa_pack.ppa_calc_mod.calc_fnc(t_team, t_year_idx, t_np_array)
 
-        # ## 選球眼解析(selectioneye)
-        # cor_selectioneye_pack.selectioneye_mod.selectioneye_fnc(t_team, t_year_idx, t_np_array)
+        ## 選球眼解析(selectioneye)
+        cor_selectioneye_pack.selectioneye_mod.selectioneye_fnc(t_team, t_year_idx, t_np_array)
 
-        # ## 出塁率xボール球見極め率相関
-        # cor_obp_selectball_pack.obp_selectball_mod.obp_selectball_fnc(t_team, t_year_idx, t_np_array)
+        ## 出塁率xボール球見極め率相関
+        cor_obp_selectball_pack.obp_selectball_mod.obp_selectball_fnc(t_team, t_year_idx, t_np_array)
 
-        # ## 相関解析(OPS vs PPA)
-        # cor_ops_ppa_pack.ops_vs_ppa_mod.ops_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
+        ## 相関解析(OPS vs PPA)
+        cor_ops_ppa_pack.ops_vs_ppa_mod.ops_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
 
         ## 相関解析(PPA vs 三振率)
         cor_ppa_strikeoutrate_pack.ppa_strikeoutrate_mod.ppa_vs_strikeoutrate_fnc(t_team, t_year_idx, t_np_array)
