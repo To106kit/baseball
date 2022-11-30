@@ -19,7 +19,7 @@ def ppa_vs_strikeoutrate_fnc(a_team, a_year_idx, a_np_array):
     t_np_array = common_fnc_pack.exclude_data_mod.exclude_data_fnc(a_np_array)
 
     # 選手名
-    t_player_name = t_np_array[:,3]
+    t_player_name = common_fnc_pack.get_data_mod.get_playername_fnc(t_np_array)
 
     # PPA計算
     t_ppa = common_fnc_pack.calc_ppa_mod.ppa_cals_fnc(t_np_array)

@@ -4,22 +4,6 @@ import os
 from globaldef_pack import globalvalue_mod as g
 import common_fnc_pack
 
-
-# 解析対象外を除外する
-def exclude_inappropriate_local_fnc(a_np_array_del):
-    # 初期化
-    t_np_array_del = a_np_array_del
-    t_del_idx_list = []
-
-    # t_atbat_define打席未満の選手は解析対象外とする。
-    t_atbat_define = 100 # この行を変更して解析対象を変更できる。
-    for t_idx in range(t_np_array_del.shape[0]):
-        if int(t_np_array_del[:,36][t_idx]) < t_atbat_define:
-            t_del_idx_list = t_del_idx_list + [t_idx]
-    # 削除
-    t_np_array = np.delete(t_np_array_del, t_del_idx_list, 0)
-    return t_np_array
-
 def plot_average_fnc(a_team, a_year_idx, a_np_array):
     # 初期化
     t_team = a_team
@@ -33,12 +17,13 @@ def plot_average_fnc(a_team, a_year_idx, a_np_array):
 
     # 解析対象外を除外する
     t_np_array = common_fnc_pack.exclude_data_mod.exclude_data_fnc(a_np_array)
-
+#TODO feat : average_mod.pyのリファクタリング #11
     t_np_strike_array = t_np_array[:,0:15]
     t_validity_list = t_np_strike_array[np.all(t_np_strike_array != "---", axis=1)]
     t_course_list = t_validity_list[:,6:15].astype(np.float32)
     t_course_average_for_plt_nplist = np.column_stack([t_validity_list[:,3:5],t_course_list])
     t_plot_list = t_course_average_for_plt_nplist.copy()
+#TODO feat : average_mod.pyのリファクタリング #11
 
     fig = plt.figure(figsize=(10, 10))
     plt.rcParams["font.size"] = 5

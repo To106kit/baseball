@@ -21,7 +21,7 @@ def obp_selectball_fnc(a_team, a_year_idx, a_np_array):
     # ボール球見極め率
     t_ballnoswingrate = common_fnc_pack.calc_ballnoswingrate_mod.ballnoswingrate_fnc(t_np_array)
     # 選手名
-    t_player_name = t_np_array[:,3]
+    t_player_name = common_fnc_pack.get_data_mod.get_playername_fnc(t_np_array)
 
     # 出塁率計算
     t_obp = common_fnc_pack.calc_obp_mod.calc_obp_fnc(t_np_array)
