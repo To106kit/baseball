@@ -43,7 +43,7 @@ for t_team in t_team_list:
 
         # # 解析(プロット用データ整理)
         # ## コース別打率
-        # course_pack.average_mod.plot_average_fnc(t_team, t_year_idx, t_np_array)
+        course_pack.average_mod.plot_average_fnc(t_team, t_year_idx, t_np_array)
 
         # ## ppa計算
         # ppa_pack.ppa_calc_mod.calc_fnc(t_team, t_year_idx, t_np_array)
@@ -61,7 +61,7 @@ for t_team in t_team_list:
         # cor_ppa_strikeoutrate_pack.ppa_strikeoutrate_mod.ppa_vs_strikeoutrate_fnc(t_team, t_year_idx, t_np_array)
 
         ## 相関解析(PPA vs SLG)
-        correlation_pack.correlation_analisis_mod.cor_ppa_vs_slg_fnc(t_team, t_year_idx, t_np_array)
+        # correlation_pack.correlation_analisis_mod.cor_ppa_vs_slg_fnc(t_team, t_year_idx, t_np_array)
 
 # 時間計測終了
 t_time_end = time.time()
