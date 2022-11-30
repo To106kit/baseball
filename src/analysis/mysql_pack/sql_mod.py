@@ -8,7 +8,8 @@ def get_batter_course_fnc(a_team, a_year_idx):
         host='localhost',
         user='root',
         passwd='to106kita9ma',
-        db='python_db',
+        # db='python_db',
+        db='python_test',
         # テーブル内部で日本語を扱うために追加
         charset='utf8'
     )
