@@ -79,17 +79,17 @@ t_url_batter_list = [
 ## 投手url
 t_url_pitcher_list = [
         "https://baseballdata.jp/1/cptop.html",
-        # "https://baseballdata.jp/2/cptop.html",
-        # "https://baseballdata.jp/3/cptop.html",
-        # "https://baseballdata.jp/4/cptop.html",
-        # "https://baseballdata.jp/5/cptop.html",
-        # "https://baseballdata.jp/6/cptop.html",
-        # "https://baseballdata.jp/7/cptop.html",
-        # "https://baseballdata.jp/8/cptop.html",
-        # "https://baseballdata.jp/9/cptop.html",
-        # "https://baseballdata.jp/11/cptop.html",
-        # "https://baseballdata.jp/12/cptop.html",
-        # "https://baseballdata.jp/376/cptop.html",
+        "https://baseballdata.jp/2/cptop.html",
+        "https://baseballdata.jp/3/cptop.html",
+        "https://baseballdata.jp/4/cptop.html",
+        "https://baseballdata.jp/5/cptop.html",
+        "https://baseballdata.jp/6/cptop.html",
+        "https://baseballdata.jp/7/cptop.html",
+        "https://baseballdata.jp/8/cptop.html",
+        "https://baseballdata.jp/9/cptop.html",
+        "https://baseballdata.jp/11/cptop.html",
+        "https://baseballdata.jp/12/cptop.html",
+        "https://baseballdata.jp/376/cptop.html",
     ]
 
 # 辞書を取得
