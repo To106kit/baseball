@@ -4,6 +4,7 @@ from . import calc_ppa_mod
 from . import exclude_data_mod
 from . import calc_ballnoswingrate_mod
 from . import calc_strikenoswingrate_mod
+from . import calc_strikeswingrate_mod
 from . import calc_obp_mod
 from . import calc_totalbases_mod
 from . import calc_slg_mod

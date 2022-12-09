@@ -38,6 +38,11 @@ def get_strikenoswing_fnc(a_np_array):
     t_strikenoswing = a_np_array[:,34].astype(int)
     return t_strikenoswing
 
+# ストライク空振り数
+def get_strikeeirswing_fnc(a_np_array):
+    t_strikeeirswing = a_np_array[:,35].astype(int)
+    return t_strikeeirswing
+
 # 安打数
 def get_allhit_fnc(a_np_array):
     t_allhit = a_np_array[:,37].astype(int)
