@@ -39,28 +39,28 @@ for t_team in t_team_list:
 
         # # 解析(プロット用データ整理)
         # ## コース別打率
-        # course_pack.average_mod.plot_average_fnc(t_team, t_year_idx, t_np_array)
+        course_pack.average_mod.plot_average_fnc(t_team, t_year_idx, t_np_array)
 
         # ## ppa計算
-        # ppa_pack.ppa_calc_mod.calc_fnc(t_team, t_year_idx, t_np_array)
+        ppa_pack.ppa_calc_mod.calc_fnc(t_team, t_year_idx, t_np_array)
 
         # ## 選球眼解析(selectioneye)
-        # correlation_pack.correlation_selectioneye_mod.selectioneye_fnc(t_team, t_year_idx, t_np_array)
+        correlation_pack.correlation_selectioneye_mod.selectioneye_fnc(t_team, t_year_idx, t_np_array)
 
         # # ## 出塁率xボール球見極め率相関
-        # correlation_pack.correlation_obp_selectball_mod.obp_selectball_fnc(t_team, t_year_idx, t_np_array)
+        correlation_pack.correlation_obp_selectball_mod.obp_selectball_fnc(t_team, t_year_idx, t_np_array)
 
         # # ## 相関解析(OPS vs PPA)
-        # correlation_pack.correlation_ops_vs_ppa_mod.ops_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
+        correlation_pack.correlation_ops_vs_ppa_mod.ops_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
 
         # ## 相関解析(PPA vs 三振率)
-        # correlation_pack.correlation_ppa_strikeoutrate_mod.ppa_vs_strikeoutrate_fnc(t_team, t_year_idx, t_np_array)
+        correlation_pack.correlation_ppa_strikeoutrate_mod.ppa_vs_strikeoutrate_fnc(t_team, t_year_idx, t_np_array)
 
         # ## 相関解析(PPA vs SLG)
-        # correlation_pack.correlation_ppa_vs_slg_mod.cor_ppa_vs_slg_fnc(t_team, t_year_idx, t_np_array)
+        correlation_pack.correlation_ppa_vs_slg_mod.cor_ppa_vs_slg_fnc(t_team, t_year_idx, t_np_array)
 
         ## 相関解析(SLG vs OBP)
-        # correlation_pack.correlation_slg_vs_obp_mod.slg_vs_obp_fnc(t_team, t_year_idx, t_np_array)
+        correlation_pack.correlation_slg_vs_obp_mod.slg_vs_obp_fnc(t_team, t_year_idx, t_np_array)
 
         ## 相関解析(PPA vs IsoP)
         correlation_pack.correlation_ppa_vs_isop_mod.ppa_vs_isop_fnc(t_team, t_year_idx, t_np_array)
