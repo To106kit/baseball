@@ -8,7 +8,7 @@ import course_pack
 import ppa_pack
 import correlation_pack
 import time
-
+import common_fnc_pack
 
 # 時間計測開始
 t_time_start = time.time()
@@ -60,7 +60,10 @@ for t_team in t_team_list:
         # correlation_pack.correlation_ppa_vs_slg_mod.cor_ppa_vs_slg_fnc(t_team, t_year_idx, t_np_array)
 
         ## 相関解析(SLG vs OBP)
-        correlation_pack.correlation_slg_vs_obp_mod.slg_vs_obp_fnc(t_team, t_year_idx, t_np_array)
+        # correlation_pack.correlation_slg_vs_obp_mod.slg_vs_obp_fnc(t_team, t_year_idx, t_np_array)
+
+        ## 相関解析(PPA vs IsoP)
+        correlation_pack.correlation_ppa_vs_isop_mod.ppa_vs_isop_fnc(t_team, t_year_idx, t_np_array)
 
 
 # 時間計測終了

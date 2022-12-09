@@ -9,3 +9,5 @@ from . import calc_totalbases_mod
 from . import calc_slg_mod
 from . import calc_ops_mod
 from . import get_data_mod
+from . import calc_isop_mod
+from . import calc_average_mod
