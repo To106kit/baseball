@@ -11,7 +11,11 @@ g_obp_vs_slg_result_base_path = "D:\\11_github\\baseball\\result\\obp_vs_slg" ##
 g_ppa_vs_isop_result_base_path = "D:\\11_github\\baseball\\result\\ppa_vs_isop" ## ppaxisop相関結果格納先
 g_strikeswing_vs_ballnoswing_result_base_path = "D:\\11_github\\baseball\\result\\strikeswing_vs_ballnoswing" ## strikeswing_vs_ballnoswing相関結果格納先
 g_successbuntrate_vs_battingeye_result_base_path = "D:\\11_github\\baseball\\result\\successbuntrate_vs_battingeye" ## バント成功率 vs battingeye(ボール球見極め率 + ストライクスイング率)相関結果格納先
+g_isod_vs_ppa_result_base_path = "D:\\11_github\\baseball\\result\\isod_vs_ppa" ## IsoDxPPA相関結果格納先
+
+# 試行用
 g_try_fnc_result_base_path = "D:\\11_github\\baseball\\result\\try_fnc" ## 関数試行用フォルダ
+
 
 # 定数定義
 g_strike_size = 9 ## ストライクゾーンの分割サイズ:s1~s9
