@@ -69,8 +69,10 @@ for t_team in t_team_list:
         # correlation_pack.correlation_ballnoswing_vs_strikeswing_mod.cor_ballnoswing_vs_strikeswing_fnc(t_team, t_year_idx, t_np_array)
 
         ## 相関解析(バント成功率 vs battingeye(ボール球見極め率 + ストライクスイング率))
-        correlation_pack.correlation_buntsuccessrate_vs_battingeye_mod.buntsuccessrate_vs_battingeye_fnc(t_team, t_year_idx, t_np_array)
+        # correlation_pack.correlation_buntsuccessrate_vs_battingeye_mod.buntsuccessrate_vs_battingeye_fnc(t_team, t_year_idx, t_np_array)
 
+        # # ## 相関解析(NOI vs PPA)
+        correlation_pack.correlation_noi_vs_ppa_mod.noi_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
 # 時間計測終了
 t_time_end = time.time()
 
