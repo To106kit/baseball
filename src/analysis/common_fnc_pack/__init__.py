@@ -14,3 +14,4 @@ from . import calc_isop_mod
 from . import calc_average_mod
 from . import calc_successbuntrate_mod
 from . import calc_noi_mod
+from . import calc_isod_mod

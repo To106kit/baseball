@@ -72,7 +72,10 @@ for t_team in t_team_list:
         # correlation_pack.correlation_buntsuccessrate_vs_battingeye_mod.buntsuccessrate_vs_battingeye_fnc(t_team, t_year_idx, t_np_array)
 
         # # ## 相関解析(NOI vs PPA)
-        correlation_pack.correlation_noi_vs_ppa_mod.noi_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
+        # correlation_pack.correlation_noi_vs_ppa_mod.noi_vs_ppa_fnc(t_team, t_year_idx, t_np_array)
+
+        # try_fnc
+        correlation_pack.try_correlation_mod.try_fnc(t_team, t_year_idx, t_np_array)
 # 時間計測終了
 t_time_end = time.time()
 
