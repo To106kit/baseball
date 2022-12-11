@@ -62,3 +62,13 @@ def get_walk_fnc(a_np_array):
 def get_sacrificeflight_fnc(a_np_array):
     t_sacrificeflight = a_np_array[:,47].astype(int)
     return t_sacrificeflight
+
+# 犠打試行回数
+def get_trybunt_fnc(a_np_array):
+    t_trybunt = a_np_array[:,48].astype(int)
+    return t_trybunt
+
+# 犠打試行回数
+def get_successbunt_fnc(a_np_array):
+    t_successbunt = a_np_array[:,49].astype(int)
+    return t_successbunt
