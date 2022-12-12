@@ -13,7 +13,7 @@ def getaverage(a_dataUrlList, a_year_idx):
     url = a_dataUrlList
     t_year_idx = a_year_idx
     t_invalid_flag = False
-    
+
     # BeautifulSoupでデータを取得
     # requests1回につき1s待つ
     time.sleep(1)
@@ -123,7 +123,7 @@ def getaverage(a_dataUrlList, a_year_idx):
 # 被投球数を取得
 def getpitchedpiches(a_selectionEye_url):
     # 初期化
-    t_selectionEye_list = []
+    t_sabr_list = []
 
     # Beautifulsoupでデータを取得
     # requests1回につき1s待つ
@@ -131,13 +131,13 @@ def getpitchedpiches(a_selectionEye_url):
     r = requests.get(a_selectionEye_url)
     soup = BeautifulSoup(r.content, 'html.parser')
 
-    t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td.pnm')[0].text] # ボール球合計
-    t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(2)')[0].text] # ボール球見極数
-    t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(4)')[0].text] # ストライク球合計
-    t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(5)')[0].text] # ストライク見逃し数
-    t_selectionEye_list = t_selectionEye_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(6)')[0].text] # ストライク空振り数
+    t_sabr_list = t_sabr_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td.pnm')[0].text] # ボール球合計
+    t_sabr_list = t_sabr_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(2)')[0].text] # ボール球見極数
+    t_sabr_list = t_sabr_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(4)')[0].text] # ストライク球合計
+    t_sabr_list = t_sabr_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(5)')[0].text] # ストライク見逃し数
+    t_sabr_list = t_sabr_list + [soup.select('body > div > div.main > div:nth-child(8) > table > tbody > tr > td:nth-child(6)')[0].text] # ストライク空振り数
 
-    return t_selectionEye_list
+    return t_sabr_list
 
 def getbasebatterdata(a_base_url):
     # デバッグ用に追加
@@ -184,6 +184,26 @@ def getbasebatterdata(a_base_url):
 
 
     return t_basedata_list, t_exception_flag
+
+
+
+# TODO: 投手mysqlデータベースの再構築 #12
+# sabrを取得
+def getpitchersabr(a_sabr_archive_url):
+    # 初期化
+    t_sabr_list = []
+
+    # Beautifulsoupでデータを取得
+    # requests1回につき1s待つ
+    time.sleep(1)
+    r = requests.get(a_sabr_archive_url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+    t_qs = soup.select('body > div.container > div.main > div.table-responsive > table > tbody > tr > td:nth-child(6)')[0].text # QS数
+    t_sabr_list = t_sabr_list + [''.join(t_qs.split())] # QS数
+
+    return t_sabr_list
+
+
 if __name__ == "__main__":
     import sys
     # getaverage(sys.argv[1])

@@ -50,8 +50,8 @@ t_playerName = ""
 t_teamName = ""
 t_course_split = []
 t_course_url = ""
-t_selectionEye_url = ""
-t_selectionEye_split = []
+t_sabr_url = ""
+t_sabr_split = []
 t_base_url = ""
 t_base_split = []
 t_basedata_list = []
@@ -114,21 +114,32 @@ for t_ele in t_np_list:
         t_course_url = [g.t_prefix_url + g.t_batter_key_str + '/'+ t_player_id + g.t_sufix_course]
         t_course_split = t_course_url[0].split('/')
 
-        # 選球眼url
-        t_selectionEye_url = [g.t_prefix_url + g.t_batter_key_str + '/'+ t_player_id + g.t_sufix_selectionEye]
-        t_selectionEye_split = t_selectionEye_url[0].split('/')
+        # sabr + 選球眼url
+        t_sabr_url = [g.t_prefix_url + g.t_batter_key_str + '/'+ t_player_id + g.t_sufix_sabr]
+        t_sabr_split = t_sabr_url[0].split('/')
 
     # player roleがピッチャーの場合
     elif t_player_role == g.t_picher_key_str:
+        # TODO: 投手mysqlデータベースの再構築 #12
+        t_base_url =  [g.t_prefix_url + g.t_picher_key_str + '/'+ t_player_id + g.t_sufix_base]
+        t_base_split = t_base_url[0].split('/')
+        # TODO: 投手mysqlデータベースの再構築 #12
+
         # コース別打率url
         t_course_url = [g.t_prefix_url + g.t_picher_key_str + '/'+ t_player_id + g.t_sufix_course]
         t_course_split = t_course_url[0].split('/')
+
+        # TODO: 投手mysqlデータベースの再構築 #12
+        # sabr url
+        t_sabr_url = [g.t_prefix_url + g.t_picher_key_str + '/'+ t_player_id + g.t_sufix_sabr]
+        t_sabr_split = t_sabr_url[0].split('/')
+        # TODO: 投手mysqlデータベースの再構築 #12
 
     # 年度別url作成
     for t_year_idx in range(2012, 2023, 1):
         # 前年度までのシーズンのデータを取得
         if t_year_idx != 2022:
-            # 打席数打取得用url(年度別)を作成
+            # ベースデータ取得用url(年度別)を作成
             t_base_replace = t_base_split.copy()
             t_base_replace.insert(3, str(t_year_idx))
             t_base_archive_url = '/'.join(t_base_replace)
@@ -138,10 +149,10 @@ for t_ele in t_np_list:
             t_course_replace.insert(3, str(t_year_idx))
             t_course_archive_url = '/'.join(t_course_replace)
 
-            # 選球眼データ取得用url(年度別)を作成
-            t_selectionEye_replace = t_selectionEye_split.copy()
-            t_selectionEye_replace.insert(3, str(t_year_idx))
-            t_selectionEye_archive_url = '/'.join(t_selectionEye_replace)
+            # 選球眼データor sabr取得用url(年度別)を作成
+            t_sabr_replace = t_sabr_split.copy()
+            t_sabr_replace.insert(3, str(t_year_idx))
+            t_sabr_archive_url = '/'.join(t_sabr_replace)
 
             # コース別打率を取得
             try:
@@ -161,10 +172,10 @@ for t_ele in t_np_list:
             if t_player_role == g.t_batter_key_str:
                 # 選球眼データ取得
                 try:
-                    t_selectionEye_list  = getdata_mod.getpitchedpiches(t_selectionEye_archive_url)
-                    t_getdatalist  = np.append(t_getdatalist, t_selectionEye_list)
+                    t_sabr_list  = getdata_mod.getpitchedpiches(t_sabr_archive_url)
+                    t_getdatalist  = np.append(t_getdatalist, t_sabr_list)
                 except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
-                    print('Not found:', t_selectionEye_archive_url)
+                    print('Not found:', t_sabr_archive_url)
                     continue
 
                 # 打席数・安打数・単打数・二塁打数・三塁打数・本塁打数・四球数・死球数・三振数・併殺数(計10要素)を取得
@@ -176,6 +187,29 @@ for t_ele in t_np_list:
                     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
                 except Exception as e:
                     print("例外args:", e.args)
+
+        # TODO: 投手mysqlデータベースの再構築 #12
+            # player roleが投手の場合のデータ取得
+            elif t_player_role == g.t_picher_key_str:
+                # sabrデータ取得
+                try:
+                    t_sabr_list = getdata_mod.getpitchersabr(t_sabr_archive_url)
+                    t_getdatalist  = np.append(t_getdatalist, t_sabr_list)
+                    print("unko")
+                except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
+                    print('Not found:', t_sabr_archive_url)
+                    continue
+
+                # # 勝、負、セーブ、奪三振、試合数、投球回、投球数、打者数、被安打、被本塁打、与四球、与死球、敬遠、失点、自責点、完投、完封、無四球、援護点、援護率、最高球速、最低球速(計?要素)を取得
+                # try:
+                #     # t_basedata_list, t_exception_flag = getdata_mod.getbasebatterdata(t_base_archive_url)
+                #     t_basedata_result_list = getdata_mod.getbasebatterdata(t_base_archive_url)
+                #     t_basedata_list = t_basedata_result_list[0]
+                #     t_exception_flag = t_basedata_result_list[1]
+                #     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
+                # except Exception as e:
+                #     print("例外args:", e.args)
+        # TODO: 投手mysqlデータベースの再構築 #12
 
 
         # 今シーズンのデータを取得
@@ -199,10 +233,10 @@ for t_ele in t_np_list:
             if t_player_role == g.t_batter_key_str:
                 try:
                     # 選球眼データ取得
-                    t_selectionEye_list  = getdata_mod.getpitchedpiches(t_selectionEye_url[0])
-                    t_getdatalist  = np.append(t_getdatalist, t_selectionEye_list)
+                    t_sabr_list  = getdata_mod.getpitchedpiches(t_sabr_url[0])
+                    t_getdatalist  = np.append(t_getdatalist, t_sabr_list)
                 except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
-                    print('Not found:', t_selectionEye_url[0])
+                    print('Not found:', t_sabr_url[0])
                     continue
 
                 # 打席数・安打数・単打数・二塁打数・三塁打数・本塁打数・四球数・死球数・三振数・併殺数(計10要素)を取得
