@@ -1,4 +1,3 @@
-# import getdata.getdata as getdata
 from getdata_pack import getdata_mod
 from lib_pack import makedict_mod
 from mysql_pack import sql_mod
@@ -11,8 +10,7 @@ import urllib
 import time
 from globaldef_pack import globalvalue_mod as g
 
-
-############################## 関数定義 ####################################
+############################## ローカル関数定義 ####################################
 def get_course_data(t_course_url, t_ele, t_year_idx):
     t_getdatalist = []
     t_player_id = t_ele[0]
@@ -32,12 +30,10 @@ def get_course_data(t_course_url, t_ele, t_year_idx):
     elif g.t_picher_key_str in t_course_url:
         t_getdatalist = np.append(t_getdatalist, g.t_picher_key_str)
     return t_getdatalist, t_invalid_flag
-############################## 関数定義 ####################################
+############################## ローカル関数定義 ####################################
 
 ############################## クラス定義 ##################################
 ############################## クラス定義 ##################################
-
-
 
 # 時間計測開始
 t_time_sta = time.time()
@@ -95,11 +91,13 @@ t_url_pitcher_list = [
 # 辞書を取得
 t_np_batter_list = makedict_mod.makedict(t_url_batter_list)
 t_np_pitcher_list = makedict_mod.makedict(t_url_pitcher_list)
-
+# 野手データと投手データを結合
 t_np_list = np.concatenate([t_np_batter_list, t_np_pitcher_list])
-# デバッグ用
+
+# デバッグ用:データベースフォーマット変更時に利用する事。
 # t_np_list = np.array([['1100040','高木 京介','playerP'],['500032', '野間口 貴彦','playerP']])
 # t_np_list = np.concatenate([t_np_batter_list, t_np_pitcher_list])
+# デバッグ用:データベースフォーマット変更時に利用する事。
 
 for t_ele in t_np_list:
     t_player_id = t_ele[0]
@@ -270,14 +268,21 @@ for t_ele in t_np_list:
 
             elif t_player_role == g.t_picher_key_str:
                 t_picherDataList = np.row_stack((t_picherDataList, t_getdatalist))
-                print("unko")
         elif t_exception_flag == True:
             # 例外の場合、引退or出場していない年のデータのため追加しない。
             pass
 
 # mysqlへ登録
-sql_mod.addsql_batter(t_batterDataList)
-sql_mod.addsql_picher(t_picherDataList)
+## 野手データをmysqlに登録
+try:
+    sql_mod.addsql_batter(t_batterDataList)
+except Exception as e:
+    print("例外args:", e.args)
+## 投手データをmysqlに登録
+try:
+    sql_mod.addsql_picher(t_picherDataList)
+except Exception as e:
+    print("例外args:", e.args)
 
 # 時間計測終了
 t_time_end = time.time()
