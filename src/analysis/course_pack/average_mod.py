@@ -31,7 +31,7 @@ def plot_average_fnc(a_team, a_year_idx, a_np_array):
     os.makedirs(t_result_path, exist_ok=True)
 
     # 解析対象外を除外する
-    t_np_array = common_fnc_pack.exclude_data_mod.exclude_data_fnc(a_np_array)
+    t_np_array = common_fnc_pack.exclude_data_mod.exclude_batter_data_fnc(a_np_array)
 
     # プロット対象を取得
     t_plot_list = exclude_validity_local_fnc(t_np_array)

@@ -16,10 +16,10 @@ def noi_vs_ppa_fnc(a_team, a_year_idx, a_np_array):
     os.makedirs(t_result_path, exist_ok=True)
 
     # 解析対象外を除外する
-    t_np_array = common_fnc_pack.exclude_data_mod.exclude_data_fnc(a_np_array)
+    t_np_array = common_fnc_pack.exclude_data_mod.exclude_batter_data_fnc(a_np_array)
 
     # 選手名
-    t_player_name = common_fnc_pack.get_data_mod.get_playername_fnc(t_np_array)
+    t_player_name = common_fnc_pack.get_batter_data_mod.get_playername_fnc(t_np_array)
 
     # NOI計算(※450以上ならば平均的な打者、550以上ならば主力級の打者、600以上ならば一流打者となる。)
     t_noi = common_fnc_pack.calc_noi_mod.calc_noi_fnc(t_np_array)

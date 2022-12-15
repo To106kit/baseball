@@ -1,6 +1,6 @@
 import numpy as np
 import common_fnc_pack
-
+#### 打者 ####
 # 打数
 def get_atbat_fnc(a_np_array):
     ## 打数
