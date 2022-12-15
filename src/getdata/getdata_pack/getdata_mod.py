@@ -182,12 +182,8 @@ def getbasebatterdata(a_base_url):
         t_exception_flag = True
         print("例外args:", e.args)
 
-
     return t_basedata_list, t_exception_flag
 
-
-
-# TODO: 投手mysqlデータベースの再構築 #12
 # sabrを取得
 def getpitchersabr(a_sabr_archive_url):
     # 初期化
@@ -203,6 +199,92 @@ def getpitchersabr(a_sabr_archive_url):
 
     return t_sabr_list
 
+# TODO: feat: 投手ベースデータを取得 #20
+def getbasepitcherdata(a_base_url):
+    # デバッグ用に追加
+    t_basedata_list = []
+    try:
+        # 初期化
+        t_basedata_list = []
+        t_exception_flag = False    # 例外フラグ
+
+        # Beautifulsoupでデータを取得
+        # requests1回につき1s待つ
+        time.sleep(1)
+        r = requests.get(a_base_url)
+        soup = BeautifulSoup(r.content, 'html.parser')
+
+        # 通算成績行を取得(文字列)
+        t_total_str = soup.select('body > div > div.main > div.table-responsive > table > tbody > tr:nth-child(1)')[0].text
+        # 改行文字列系を削除し、空白行でリスト分割
+        t_total_list = t_total_str.replace("\n","").replace("\r","").split() # 引数なしのsplitは空白文字列による分割
+        # リストサイズが35の場合、投球回に分数を含む
+        if len(t_total_list) != 35:
+            t_basedata_list = t_basedata_list + [t_total_list[3]] # 勝(win)
+            t_basedata_list = t_basedata_list + [t_total_list[4]]  # 負(lose)
+            t_basedata_list = t_basedata_list + [t_total_list[5]]  # セーブ(save)
+            t_basedata_list = t_basedata_list + [t_total_list[6]]  # 奪三振(strikeout)
+            t_basedata_list = t_basedata_list + [t_total_list[7]]  # 試合数(numofmatches)
+            t_basedata_list = t_basedata_list + [t_total_list[8]]  # 投球回(innings)
+            t_basedata_list = t_basedata_list + [t_total_list[9]]  # 奪三振率(strikeoutrate)
+            t_basedata_list = t_basedata_list + [t_total_list[10]]  # 投球数(numofpitches)
+            t_basedata_list = t_basedata_list + [t_total_list[11]]  # 打者数(numofbatters)
+            t_basedata_list = t_basedata_list + [t_total_list[12]]  # 被安打(hitsallowed)
+            t_basedata_list = t_basedata_list + [t_total_list[13]]  # 被本塁打(homerunallowed)
+            t_basedata_list = t_basedata_list + [t_total_list[14]]  # 与四球(Bases on Balls)
+            t_basedata_list = t_basedata_list + [t_total_list[15]]  # 与死球(Hit by Pitch)
+            t_basedata_list = t_basedata_list + [t_total_list[16]]  # 敬遠(intentional walk)
+            t_basedata_list = t_basedata_list + [t_total_list[17]]  # 失点(Runs Allowed)
+            t_basedata_list = t_basedata_list + [t_total_list[18]]  # 自責点(Earned Runs)
+            t_basedata_list = t_basedata_list + [t_total_list[19]]  # 完投(Complete Games)
+            t_basedata_list = t_basedata_list + [t_total_list[20]]  # 完封(Shutouts)
+            t_basedata_list = t_basedata_list + [t_total_list[21]]  # 無四球(nowalk)
+            t_basedata_list = t_basedata_list + [t_total_list[22]]  # 被打率(Opponents Batting Average)
+            t_basedata_list = t_basedata_list + [t_total_list[23]]  # QS率(QSrate)
+            t_basedata_list = t_basedata_list + [t_total_list[24]]  # 援護点(support point)
+            t_basedata_list = t_basedata_list + [t_total_list[25]]  # 援護率(run support)
+            t_basedata_list = t_basedata_list + [t_total_list[26]]  # WHIP()
+            t_basedata_list = t_basedata_list + [t_total_list[31]]  # 最高球速(max speed)
+            t_basedata_list = t_basedata_list + [t_total_list[32]]  # 最低球速(min speed)
+            t_basedata_list = t_basedata_list + [t_total_list[33]]  # 球速差(ball speed difference)
+        elif len(t_total_list) == 35:
+            t_basedata_list = t_basedata_list + [t_total_list[3]] # 勝(win)
+            t_basedata_list = t_basedata_list + [t_total_list[4]]  # 負(lose)
+            t_basedata_list = t_basedata_list + [t_total_list[5]]  # セーブ(save)
+            t_basedata_list = t_basedata_list + [t_total_list[6]]  # 奪三振(strikeout)
+            t_basedata_list = t_basedata_list + [t_total_list[7]]  # 試合数(numofmatches)
+            t_basedata_list = t_basedata_list + [t_total_list[8]+'+'+t_total_list[9]]  # 投球回(innings)
+            t_basedata_list = t_basedata_list + [t_total_list[10]]  # 奪三振率(strikeoutrate)
+            t_basedata_list = t_basedata_list + [t_total_list[11]]  # 投球数(numofpitches)
+            t_basedata_list = t_basedata_list + [t_total_list[12]]  # 打者数(numofbatters)
+            t_basedata_list = t_basedata_list + [t_total_list[13]]  # 被安打(hitsallowed)
+            t_basedata_list = t_basedata_list + [t_total_list[14]]  # 被本塁打(homerunallowed)
+            t_basedata_list = t_basedata_list + [t_total_list[15]]  # 与四球(Bases on Balls)
+            t_basedata_list = t_basedata_list + [t_total_list[16]]  # 与死球(Hit by Pitch)
+            t_basedata_list = t_basedata_list + [t_total_list[17]]  # 敬遠(intentional walk)
+            t_basedata_list = t_basedata_list + [t_total_list[18]]  # 失点(Runs Allowed)
+            t_basedata_list = t_basedata_list + [t_total_list[19]]  # 自責点(Earned Runs)
+            t_basedata_list = t_basedata_list + [t_total_list[20]]  # 完投(Complete Games)
+            t_basedata_list = t_basedata_list + [t_total_list[21]]  # 完封(Shutouts)
+            t_basedata_list = t_basedata_list + [t_total_list[22]]  # 無四球(nowalk)
+            t_basedata_list = t_basedata_list + [t_total_list[23]]  # 被打率(Opponents Batting Average)
+            t_basedata_list = t_basedata_list + [t_total_list[24]]  # QS率(QSrate)
+            t_basedata_list = t_basedata_list + [t_total_list[25]]  # 援護点(support point)
+            t_basedata_list = t_basedata_list + [t_total_list[26]]  # 援護率(run support)
+            t_basedata_list = t_basedata_list + [t_total_list[27]]  # WHIP()
+            t_basedata_list = t_basedata_list + [t_total_list[32]]  # 最高球速(max speed)
+            t_basedata_list = t_basedata_list + [t_total_list[33]]  # 最低球速(min speed)
+            t_basedata_list = t_basedata_list + [t_total_list[34]]  # 球速差(ball speed difference)
+            print("投球回数端数")
+    except Exception as e:
+        # 基本設計書の例外定義を参照すること。
+        # 例外処理として、すべてノーデータとして埋め、SQLへ登録する。
+        t_basedata_list = ["---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---", "---"]
+        t_exception_flag = True
+        print("例外args:", e.args)
+
+
+    return t_basedata_list, t_exception_flag
 
 if __name__ == "__main__":
     import sys

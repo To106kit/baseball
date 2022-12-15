@@ -45,7 +45,7 @@ t_time_sta = time.time()
 # 初期化
 t_getdatalist = []
 t_batterDataList = np.empty((0,51), str)
-t_picherDataList = np.empty((0,30), str)
+t_picherDataList = np.empty((0,58), str)
 t_playerName = ""
 t_teamName = ""
 t_course_split = []
@@ -62,34 +62,34 @@ t_unit_flag = "sec"
 # データ取得対象球団のベースとなるページurlリスト
 ## 打者url
 t_url_batter_list = [
-        # "https://baseballdata.jp/1/ctop.html",
-        # "https://baseballdata.jp/2/ctop.html",
-        # "https://baseballdata.jp/3/ctop.html",
-        # "https://baseballdata.jp/4/ctop.html",
-        # "https://baseballdata.jp/5/ctop.html",
-        # "https://baseballdata.jp/6/ctop.html",
-        # "https://baseballdata.jp/7/ctop.html",
-        # "https://baseballdata.jp/8/ctop.html",
-        # "https://baseballdata.jp/9/ctop.html",
-        # "https://baseballdata.jp/11/ctop.html",
-        # "https://baseballdata.jp/12/ctop.html",
-        # "https://baseballdata.jp/376/ctop.html",
+        "https://baseballdata.jp/1/ctop.html",
+        "https://baseballdata.jp/2/ctop.html",
+        "https://baseballdata.jp/3/ctop.html",
+        "https://baseballdata.jp/4/ctop.html",
+        "https://baseballdata.jp/5/ctop.html",
+        "https://baseballdata.jp/6/ctop.html",
+        "https://baseballdata.jp/7/ctop.html",
+        "https://baseballdata.jp/8/ctop.html",
+        "https://baseballdata.jp/9/ctop.html",
+        "https://baseballdata.jp/11/ctop.html",
+        "https://baseballdata.jp/12/ctop.html",
+        "https://baseballdata.jp/376/ctop.html",
     ]
 
 ## 投手url
 t_url_pitcher_list = [
         "https://baseballdata.jp/1/cptop.html",
-        # "https://baseballdata.jp/2/cptop.html",
-        # "https://baseballdata.jp/3/cptop.html",
-        # "https://baseballdata.jp/4/cptop.html",
-        # "https://baseballdata.jp/5/cptop.html",
-        # "https://baseballdata.jp/6/cptop.html",
-        # "https://baseballdata.jp/7/cptop.html",
-        # "https://baseballdata.jp/8/cptop.html",
-        # "https://baseballdata.jp/9/cptop.html",
-        # "https://baseballdata.jp/11/cptop.html",
-        # "https://baseballdata.jp/12/cptop.html",
-        # "https://baseballdata.jp/376/cptop.html",
+        "https://baseballdata.jp/2/cptop.html",
+        "https://baseballdata.jp/3/cptop.html",
+        "https://baseballdata.jp/4/cptop.html",
+        "https://baseballdata.jp/5/cptop.html",
+        "https://baseballdata.jp/6/cptop.html",
+        "https://baseballdata.jp/7/cptop.html",
+        "https://baseballdata.jp/8/cptop.html",
+        "https://baseballdata.jp/9/cptop.html",
+        "https://baseballdata.jp/11/cptop.html",
+        "https://baseballdata.jp/12/cptop.html",
+        "https://baseballdata.jp/376/cptop.html",
     ]
 
 # 辞書を取得
@@ -97,6 +97,9 @@ t_np_batter_list = makedict_mod.makedict(t_url_batter_list)
 t_np_pitcher_list = makedict_mod.makedict(t_url_pitcher_list)
 
 t_np_list = np.concatenate([t_np_batter_list, t_np_pitcher_list])
+# デバッグ用
+# t_np_list = np.array([['1100040','高木 京介','playerP'],['500032', '野間口 貴彦','playerP']])
+# t_np_list = np.concatenate([t_np_batter_list, t_np_pitcher_list])
 
 for t_ele in t_np_list:
     t_player_id = t_ele[0]
@@ -120,20 +123,16 @@ for t_ele in t_np_list:
 
     # player roleがピッチャーの場合
     elif t_player_role == g.t_picher_key_str:
-        # TODO: 投手mysqlデータベースの再構築 #12
         t_base_url =  [g.t_prefix_url + g.t_picher_key_str + '/'+ t_player_id + g.t_sufix_base]
         t_base_split = t_base_url[0].split('/')
-        # TODO: 投手mysqlデータベースの再構築 #12
 
         # コース別打率url
         t_course_url = [g.t_prefix_url + g.t_picher_key_str + '/'+ t_player_id + g.t_sufix_course]
         t_course_split = t_course_url[0].split('/')
 
-        # TODO: 投手mysqlデータベースの再構築 #12
         # sabr url
         t_sabr_url = [g.t_prefix_url + g.t_picher_key_str + '/'+ t_player_id + g.t_sufix_sabr]
         t_sabr_split = t_sabr_url[0].split('/')
-        # TODO: 投手mysqlデータベースの再構築 #12
 
     # 年度別url作成
     for t_year_idx in range(2012, 2023, 1):
@@ -188,29 +187,22 @@ for t_ele in t_np_list:
                 except Exception as e:
                     print("例外args:", e.args)
 
-        # TODO: 投手mysqlデータベースの再構築 #12
             # player roleが投手の場合のデータ取得
             elif t_player_role == g.t_picher_key_str:
                 # sabrデータ取得
                 try:
                     t_sabr_list = getdata_mod.getpitchersabr(t_sabr_archive_url)
                     t_getdatalist  = np.append(t_getdatalist, t_sabr_list)
-                    print("unko")
                 except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
                     print('Not found:', t_sabr_archive_url)
                     continue
-
-                # # 勝、負、セーブ、奪三振、試合数、投球回、投球数、打者数、被安打、被本塁打、与四球、与死球、敬遠、失点、自責点、完投、完封、無四球、援護点、援護率、最高球速、最低球速(計?要素)を取得
-                # try:
-                #     # t_basedata_list, t_exception_flag = getdata_mod.getbasebatterdata(t_base_archive_url)
-                #     t_basedata_result_list = getdata_mod.getbasebatterdata(t_base_archive_url)
-                #     t_basedata_list = t_basedata_result_list[0]
-                #     t_exception_flag = t_basedata_result_list[1]
-                #     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
-                # except Exception as e:
-                #     print("例外args:", e.args)
-        # TODO: 投手mysqlデータベースの再構築 #12
-
+                try:
+                    t_basedata_result_list = getdata_mod.getbasepitcherdata(t_base_archive_url)
+                    t_basedata_list = t_basedata_result_list[0]
+                    t_exception_flag = t_basedata_result_list[1]
+                    t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
+                except Exception as e:
+                    print("例外args:", e.args)
 
         # 今シーズンのデータを取得
         elif t_year_idx == 2022:
@@ -250,6 +242,23 @@ for t_ele in t_np_list:
                     print("例外args:", e.args)
                     t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
 
+            # player roleが投手の場合のデータ取得
+            elif t_player_role == g.t_picher_key_str:
+                # sabrデータ取得
+                try:
+                    t_sabr_list = getdata_mod.getpitchersabr(t_sabr_url[0])
+                    t_getdatalist  = np.append(t_getdatalist, t_sabr_list)
+                except (urllib.request.HTTPError, ValueError, IndexError):  # type: ignore
+                    print('Not found:', t_sabr_url[0])
+                    continue
+                try:
+                    t_basedata_result_list = getdata_mod.getbasepitcherdata(t_base_url[0])
+                    t_basedata_list = t_basedata_result_list[0]
+                    t_exception_flag = t_basedata_result_list[1]
+                    t_getdatalist  = np.append(t_getdatalist, t_basedata_list)
+                except Exception as e:
+                    print("例外args:", e.args)
+
         if t_exception_flag == False:
             # 縦結合(年度毎の打率※投手の場合は被打率)
             # player roleがバッターの場合
@@ -261,6 +270,7 @@ for t_ele in t_np_list:
 
             elif t_player_role == g.t_picher_key_str:
                 t_picherDataList = np.row_stack((t_picherDataList, t_getdatalist))
+                print("unko")
         elif t_exception_flag == True:
             # 例外の場合、引退or出場していない年のデータのため追加しない。
             pass
