@@ -28,9 +28,9 @@ def convert_innings_local_fnc(a_innings):
     return t_totalInnings
 
 # PPAを計算
-def calc_k9_fnc(a_np_array):
-    # 奪三振数取得
-    t_np_strikeout = common_fnc_pack.get_pitcher_data_mod.get_strikeout_fnc(a_np_array)
+def calc_bb9_fnc(a_np_array):
+    # 与四球取得
+    t_np_basesonballs = common_fnc_pack.get_pitcher_data_mod.get_basesonballs_fnc(a_np_array)
 
     # 投球回取得
     t_innings = common_fnc_pack.get_pitcher_data_mod.get_innings_fnc(a_np_array)
@@ -39,7 +39,7 @@ def calc_k9_fnc(a_np_array):
     t_totalOut = convert_innings_local_fnc(t_innings)
     t_np_totalOut = np.array(t_totalOut)
 
-    # K/9 ＝ (奪三振 ÷ 投球回) × 9
+    # 【計算方法】 BB/9=（与四球 / 投球回数）× 9 → BB/9=（与四球 / 総アウト数 * 3）× 9
     # ※投球回=総アウト数/3と計算する
-    t_k9 = np.round((t_np_strikeout / t_np_totalOut * 3) * 9, 3)
-    return t_k9
+    t_bb9 = np.round((t_np_basesonballs / t_np_totalOut * 3) * 9, 3)
+    return t_bb9
