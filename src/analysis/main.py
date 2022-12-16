@@ -32,7 +32,8 @@ t_team_list = [
 # 各チームごとのループ処理
 for t_team in t_team_list:
     # 各年度ごとのループ処理
-    for t_year_idx in range(2012, 2023, 1):
+    # for t_year_idx in range(2012, 2023, 1):
+    for t_year_idx in range(2019, 2020, 1):
     # 野手mysqlからデータ取得
         t_batter_data = mysql_pack.sql_mod.get_batter_course_fnc(t_team, t_year_idx)
         t_np_batter_array = np.array(t_batter_data)
@@ -81,6 +82,7 @@ for t_team in t_team_list:
         # correlation_pack.correlation_isod_vs_ppa_mod.isod_vs_ppa_fnc(t_team, t_year_idx, t_np_batter_array)
 
         # try_fnc
+        # correlation_pack.try_correlation_mod.try_fnc(t_team, t_year_idx, t_np_pitcher_array)
         correlation_pack.try_correlation_mod.try_fnc(t_team, t_year_idx, t_np_pitcher_array)
 # 時間計測終了
 t_time_end = time.time()
