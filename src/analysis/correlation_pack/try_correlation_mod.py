@@ -23,7 +23,7 @@ def try_fnc(a_team, a_year_idx, a_np_array):
 
     # 試したい関数
     # t_isod = common_fnc_pack.calc_isod_mod.calc_isod_fnc(t_np_array)
-    t_test = common_fnc_pack.calc_kbb_mod.calc_kbb_fnc(t_np_array)
+    t_test = common_fnc_pack.calc_whip_mod.calc_whip_fnc(t_np_array)
 
     print("unko")
 
