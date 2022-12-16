@@ -33,7 +33,7 @@ t_team_list = [
 for t_team in t_team_list:
     # 各年度ごとのループ処理
     # for t_year_idx in range(2012, 2023, 1):
-    for t_year_idx in range(2019, 2020, 1):
+    for t_year_idx in range(2020, 2021, 1):
     # 野手mysqlからデータ取得
         t_batter_data = mysql_pack.sql_mod.get_batter_course_fnc(t_team, t_year_idx)
         t_np_batter_array = np.array(t_batter_data)
