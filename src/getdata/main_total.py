@@ -17,7 +17,8 @@ from globaldef_pack import globalvalue_mod as g
 t_time_sta = time.time()
 
 # 初期化
-t_getdatalist = np.empty((0,38), str)
+t_np_batter_total_list_for_sql= np.empty((0,38), str)
+t_np_pitcher_total_list_for_sql= np.empty((0,34), str)
 t_unit_flag = "sec"
 t_totaldata_url = ""
 
@@ -46,18 +47,29 @@ for t_league_idx in t_url_totaldata_list:
             t_totaldata_url = t_league_idx
 
         # トータルデータからmysql用データを取得
-        t_total_batter_list = get_totaldata_mod.get_total_data(t_totaldata_url)
-        m, n = t_total_batter_list.shape
-        t_total_batter_year_list = np.c_[np.full(m, t_year_idx), t_total_batter_list]
-        t_getdatalist  = np.vstack([t_getdatalist, t_total_batter_year_list])
+        t_np_total_batter_list, t_np_total_pitcher_list = get_totaldata_mod.get_total_data(t_totaldata_url)
+        # 年度を挿入(野手)
+        m, n = t_np_total_batter_list.shape
+        t_total_batter_year_list = np.c_[np.full(m, t_year_idx), t_np_total_batter_list]
+        t_np_batter_total_list_for_sql  = np.vstack([t_np_batter_total_list_for_sql, t_total_batter_year_list])
 
-        print("unko")
+        # 年度を挿入(野手)
+        m, n = t_np_total_pitcher_list.shape
+        t_total_pitcher_year_list = np.c_[np.full(m, t_year_idx), t_np_total_pitcher_list]
+        t_np_pitcher_total_list_for_sql  = np.vstack([t_np_pitcher_total_list_for_sql, t_total_pitcher_year_list])
 
+print("unko")
 
 # mysqlへ登録
 ## 野手データをmysqlに登録
 try:
-    total_sql_mod.set_sql_batter_total(t_getdatalist)
+    total_sql_mod.set_sql_batter_total(t_np_batter_total_list_for_sql)
+except Exception as e:
+    print("例外args:", e.args)
+
+## 投手データをmysqlに登録
+try:
+    total_sql_mod.set_sql_pitcher_total(t_np_pitcher_total_list_for_sql)
 except Exception as e:
     print("例外args:", e.args)
 
