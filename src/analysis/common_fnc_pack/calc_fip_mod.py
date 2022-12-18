@@ -73,7 +73,9 @@ def calc_fip_fnc(a_year_idx, a_team, a_np_pitcher_array):
                         - (t_league_total_strikeout * 2)) / t_league_total_innings)
 
     # FIP ＝ [(被本塁打×13) ＋ {(与四球 ＋ 与死球 － 敬遠) × 3} － (奪三振×2)] ÷ 投球回 ＋ リーグ補正値
-    t_fip = ((t_np_homerunallowed * 13) + ((t_np_basesonballs - t_np_intentionalwalk + t_np_hitbypitch) * 3) - (t_np_strikeout * 2)) / t_np_totalOut * 3 + t_correction_value
+    # t_fip = ((t_np_homerunallowed * 13) + ((t_np_basesonballs - t_np_intentionalwalk + t_np_hitbypitch) * 3) - (t_np_strikeout * 2)) / t_np_totalOut * 3 + t_correction_value
+    # リーグ補正値=3.12固定の場合※データで楽しむプロ野球では3.12固定にしている。
+    t_fip = ((t_np_homerunallowed * 13) + ((t_np_basesonballs - t_np_intentionalwalk + t_np_hitbypitch) * 3) - (t_np_strikeout * 2)) / t_np_totalOut * 3 + 3.12
     t_fip_round = np.round(t_fip, 3)
 
     return t_fip_round

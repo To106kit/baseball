@@ -37,9 +37,9 @@ def calc_league_total_intentionalwalk_fnc(a_year_idx, a_team):
 
     # 投手mysqlからデータ取得
     # リーグ別
-    # t_pitcher_data = mysql_pack.sql_mod.get_every_league_total(a_year_idx, t_league)
+    t_pitcher_data = mysql_pack.sql_mod.get_every_league_total(a_year_idx, t_league)
     # セパ統一
-    t_pitcher_data = mysql_pack.sql_mod.get_both_league_total(a_year_idx)
+    # t_pitcher_data = mysql_pack.sql_mod.get_both_league_total(a_year_idx)
     t_np_pitcher_array = np.array(t_pitcher_data)
 
     # 計算(後にローカル関数化予定)
