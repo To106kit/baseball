@@ -20,3 +20,4 @@ from . import calc_k9_mod
 from . import calc_bb9_mod
 from . import calc_kbb_mod
 from . import calc_whip_mod
+from . import calc_league_total_era_mod
