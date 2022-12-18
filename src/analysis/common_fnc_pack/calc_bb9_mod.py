@@ -1,7 +1,7 @@
 import numpy as np
 import common_fnc_pack
 
-# 解析対象外を除外する
+# イニングの端数を計算する
 def convert_innings_local_fnc(a_innings):
     # 初期化
     t_totalInnings = []

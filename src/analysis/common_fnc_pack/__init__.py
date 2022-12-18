@@ -20,4 +20,11 @@ from . import calc_k9_mod
 from . import calc_bb9_mod
 from . import calc_kbb_mod
 from . import calc_whip_mod
+from . import calc_fip_mod
 from . import calc_league_total_era_mod
+from . import calc_league_total_strikeout_mod
+from . import calc_league_total_basesonballs_mod
+from . import calc_league_total_hitbypitch_mod
+from . import calc_league_total_intentionalwalk_mod
+from . import calc_league_total_innings_mod
+from . import calc_league_total_homerunallowed_mod

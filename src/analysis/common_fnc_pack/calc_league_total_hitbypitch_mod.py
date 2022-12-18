@@ -4,7 +4,7 @@ import mysql_pack
 from fractions import Fraction
 
 # リーグ平均防御率を計算
-def calc_league_total_era_fnc(a_year_idx, a_team):
+def calc_league_total_hitbypitch_fnc(a_year_idx, a_team):
     # 初期化
     t_era = ""
     t_league = ""
@@ -42,30 +42,21 @@ def calc_league_total_era_fnc(a_year_idx, a_team):
     t_pitcher_data = mysql_pack.sql_mod.get_both_league_total(a_year_idx)
     t_np_pitcher_array = np.array(t_pitcher_data)
 
-
-
     # 計算(後にローカル関数化予定)
-    # 自責点
-    t_np_jisekiten = t_np_pitcher_array[:,22].astype(int)
-    t_sum_jisekiten = np.sum(t_np_jisekiten)
+    # 奪三振取得
+    t_np_hitbypitch = t_np_pitcher_array[:,19]
+    t_hitbypitch_list = t_np_hitbypitch.tolist()
+    t_hitbypitch_str = ' '.join(t_hitbypitch_list)
+    t_hitbypitch_str = t_hitbypitch_str.replace(',','')
+    t_hitbypitch_list = t_hitbypitch_str.split()
+    t_np_hitbypitch_list = np.array(t_hitbypitch_list)
+    t_np_hitbypitch_list = t_np_hitbypitch_list.astype(int)
 
-    # 投球回合計
-    t_np_innings = t_np_pitcher_array[:,12]
-    t_innings_list = t_np_innings.tolist()
-    t_innings_str = ' '.join(t_innings_list)
-    t_innings_list = t_innings_str.split()
-    for s in t_innings_list:
-        t_fraction_innings = Fraction(s)
-        t_innings_sum = t_innings_sum + t_fraction_innings
+    t_sum_hitbypitch = np.sum(t_np_hitbypitch_list)
 
-    # 防御率(era)を計算 : 防御率 ＝ 自責点×9÷投球回数
-    t_era = t_sum_jisekiten * 9 / t_innings_sum
-    t_np_era = np.array(float(t_era))
-    t_era = np.round(t_np_era, 3)
-
-    return t_era
+    return t_sum_hitbypitch
 
 # if __name__ == "__main__":
 #     import sys
 #     import os
-#     calc_league_total_era_fnc(2022, 'DeNA') 
+#     calc_league_total_era_fnc(2022, 'DeNA')
