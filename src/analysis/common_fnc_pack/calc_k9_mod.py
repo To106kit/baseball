@@ -35,7 +35,7 @@ def calc_k9_fnc(a_np_array):
     # 投球回取得
     t_innings = common_fnc_pack.get_pitcher_data_mod.get_innings_fnc(a_np_array)
 
-    # イニングの端数を計算する
+    # 投球回をアウト数に変換
     t_totalOut = convert_innings_local_fnc(t_innings)
     t_np_totalOut = np.array(t_totalOut)
 

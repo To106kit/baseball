@@ -28,3 +28,6 @@ from . import calc_league_total_hitbypitch_mod
 from . import calc_league_total_intentionalwalk_mod
 from . import calc_league_total_innings_mod
 from . import calc_league_total_homerunallowed_mod
+from . import calc_hr9_mod
+from . import convert_innings_to_outcounts_mod
+
