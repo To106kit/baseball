@@ -17,8 +17,8 @@ t_time_start = time.time()
 t_team_list = [
     # 'ヤクルト',
     # '巨人',
-    'DeNA',
-    # '中日',
+    # 'DeNA',
+    '中日',
     # '阪神',
     # '広島',
     # '西武',
@@ -84,7 +84,7 @@ for t_team in t_team_list:
         # try_fnc
         # correlation_pack.try_correlation_mod.try_fnc(t_team, t_year_idx, t_np_pitcher_array)
         # common_fnc_pack.calc_league_total_homerunallowed_mod.calc_league_total_homerunallowed_fnc(t_year_idx, t_team)
-        common_fnc_pack.calc_hr9_mod.calc_hr9_fnc(t_np_pitcher_array)
+        common_fnc_pack.calc_lob_mod.calc_lob_fnc(t_np_pitcher_array)
 # 時間計測終了
 t_time_end = time.time()
 
