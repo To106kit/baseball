@@ -15,25 +15,25 @@ t_time_start = time.time()
 
 # チーム
 t_team_list = [
-    # 'ヤクルト',
-    # '巨人',
-    # 'DeNA',
+    'ヤクルト',
+    '巨人',
+    'DeNA',
     '中日',
-    # '阪神',
-    # '広島',
-    # '西武',
-    # '日本ハム',
-    # 'ロッテ',
-    # 'オリックス',
-    # 'ソフトバンク',
-    # '楽天',
+    '阪神',
+    '広島',
+    '西武',
+    '日本ハム',
+    'ロッテ',
+    'オリックス',
+    'ソフトバンク',
+    '楽天',
 ]
 
 # 各チームごとのループ処理
 for t_team in t_team_list:
     # 各年度ごとのループ処理
+    for t_year_idx in range(2012, 2023, 1):
     # for t_year_idx in range(2022, 2023, 1):
-    for t_year_idx in range(2022, 2023, 1):
     # 野手mysqlからデータ取得
         t_batter_data = mysql_pack.sql_mod.get_batter_course_fnc(t_team, t_year_idx)
         t_np_batter_array = np.array(t_batter_data)
@@ -84,7 +84,7 @@ for t_team in t_team_list:
         # try_fnc
         # correlation_pack.try_correlation_mod.try_fnc(t_team, t_year_idx, t_np_pitcher_array)
         # common_fnc_pack.calc_league_total_homerunallowed_mod.calc_league_total_homerunallowed_fnc(t_year_idx, t_team)
-        common_fnc_pack.calc_lob_mod.calc_lob_fnc(t_np_pitcher_array)
+        correlation_pack.correlation_lob_vs_fip_mod.cor_lob_vs_fip_fnc(t_team, t_year_idx, t_np_pitcher_array)
 # 時間計測終了
 t_time_end = time.time()
 
