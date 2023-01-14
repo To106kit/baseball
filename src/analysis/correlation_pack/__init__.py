@@ -10,5 +10,6 @@ from . import correlation_ppa_vs_isop_mod
 from . import correlation_ballnoswing_vs_strikeswing_mod
 from . import correlation_buntsuccessrate_vs_battingeye_mod
 from . import correlation_lob_vs_fip_mod
+from . import correlation_lob_vs_k9_mod
 
 from . import try_correlation_mod

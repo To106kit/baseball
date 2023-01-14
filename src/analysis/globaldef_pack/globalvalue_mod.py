@@ -16,6 +16,7 @@ g_isod_vs_ppa_result_base_path = "D:\\11_github\\baseball\\result\\isod_vs_ppa" 
 
 # 投手
 g_lob_vs_fip_result_base_path = "D:\\11_github\\baseball\\result\\lob_vs_fip" ## LOBxFIP相関結果格納先
+g_lob_vs_k9_result_base_path = "D:\\11_github\\baseball\\result\\lob_vs_k9" ## LOBxK9相関結果格納先
 
 # 試行用
 g_try_fnc_result_base_path = "D:\\11_github\\baseball\\result\\try_fnc" ## 関数試行用フォルダ

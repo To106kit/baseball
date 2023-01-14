@@ -84,7 +84,7 @@ for t_team in t_team_list:
         # try_fnc
         # correlation_pack.try_correlation_mod.try_fnc(t_team, t_year_idx, t_np_pitcher_array)
         # common_fnc_pack.calc_league_total_homerunallowed_mod.calc_league_total_homerunallowed_fnc(t_year_idx, t_team)
-        correlation_pack.correlation_lob_vs_fip_mod.cor_lob_vs_fip_fnc(t_team, t_year_idx, t_np_pitcher_array)
+        correlation_pack.correlation_lob_vs_k9_mod.cor_lob_vs_k9_fnc(t_team, t_year_idx, t_np_pitcher_array)
 # 時間計測終了
 t_time_end = time.time()
 
