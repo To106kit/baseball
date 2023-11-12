@@ -8,9 +8,7 @@ def set_sql_batter_total(a_getdatalist):
         host='localhost',
         user='root',
         passwd='to106kita9ma',
-        # db='python_db',
-        db='python_test',
-        # db='a',
+        db='db_2023',
         # テーブル内部で日本語を扱うために追加
         charset='utf8'
     )
@@ -99,7 +97,8 @@ def set_sql_pitcher_total(a_getdatalist):
         user='root',
         passwd='to106kita9ma',
         # db='python_db',
-        db='python_test',
+        db='db_2023',
+        # db='python_test',
         # db='a',
         # テーブル内部で日本語を扱うために追加
         charset='utf8'

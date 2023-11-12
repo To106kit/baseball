@@ -21,6 +21,7 @@ t_np_batter_total_list_for_sql= np.empty((0,39), str)
 t_np_pitcher_total_list_for_sql= np.empty((0,35), str)
 t_unit_flag = "sec"
 t_totaldata_url = ""
+t_this_year = 2023
 
 # データ取得対象球団のベースとなるページurlリスト
 ## TODO: 全体url global変数に登録するべき
@@ -33,17 +34,19 @@ t_url_totaldata_list = [
 # セ・パループ
 for t_league_idx in t_url_totaldata_list:
     # 年度別url作成
-    for t_year_idx in range(2012, 2023, 1):
+    # for t_year_idx in range(t_this_year, t_this_year + 1, 1):
+    for t_year_idx in range(2012, t_this_year + 1, 1):
+
         # 前年度までのシーズンのデータを取得
         print(str(t_year_idx)+"年")
-        if t_year_idx != 2022:
+        if t_year_idx != t_this_year:
             # ベースデータ取得用url(年度別)を作成
             t_totaldata_split = t_league_idx[0].split('/')
             t_totaldata_replace = t_totaldata_split.copy()
             t_totaldata_replace.insert(3, str(t_year_idx))
             t_totaldata_url = '/'.join(t_totaldata_replace)
         # 今シーズンのデータを取得
-        elif t_year_idx == 2022:
+        elif t_year_idx == t_this_year:
             t_totaldata_url = t_league_idx[0]
 
         # トータルデータからmysql用データを取得

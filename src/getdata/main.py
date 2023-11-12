@@ -54,6 +54,8 @@ t_basedata_list = []
 t_exception_flag = False
 t_invalid_flag = False
 t_unit_flag = "sec"
+t_this_year = 2023
+
 
 # データ取得対象球団のベースとなるページurlリスト
 ## 打者url
@@ -133,9 +135,10 @@ for t_ele in t_np_list:
         t_sabr_split = t_sabr_url[0].split('/')
 
     # 年度別url作成
-    for t_year_idx in range(2012, 2023, 1):
+    for t_year_idx in range(2012, t_this_year + 1, 1):
+    # for t_year_idx in range(t_this_year, t_this_year + 1, 1):
         # 前年度までのシーズンのデータを取得
-        if t_year_idx != 2022:
+        if t_year_idx != t_this_year:
             # ベースデータ取得用url(年度別)を作成
             t_base_replace = t_base_split.copy()
             t_base_replace.insert(3, str(t_year_idx))
@@ -203,7 +206,7 @@ for t_ele in t_np_list:
                     print("例外args:", e.args)
 
         # 今シーズンのデータを取得
-        elif t_year_idx == 2022:
+        elif t_year_idx == t_this_year:
             # コース別打率を取得
             try:
                 t_getdatalist, t_invalid_flag = get_course_data(t_course_url[0], t_ele, t_year_idx)
